@@ -18,13 +18,13 @@ function calculateSimpleRevenue(purchase, _product) {
  */
 function calculateBonusByProfit(index, total, seller) {
    if (index === 0) {
-       return +(seller.profit * 0.15).toFixed(2);
+       return seller.profit * 0.15;
    } else if (index === 1 || index === 2) {
-       return +(seller.profit * 0.10).toFixed(2);
+       return seller.profit * 0.10;
    } else if (index === total - 1) {
        return 0;
    } else {
-       return +(seller.profit * 0.05).toFixed(2);
+       return seller.profit * 0.05;
    }
 }
 
@@ -66,10 +66,10 @@ function analyzeSalesData(data, options) {
                const product = productIndex[item.sku];
                if (product) {
                    const itemRevenue = calculateRevenue(item, product);
-                   seller.revenue += +itemRevenue.toFixed(2);
+                   seller.revenue += itemRevenue;
                    const cost = product.purchase_price * item.quantity;
                    const itemProfit = itemRevenue - cost;
-                   seller.profit += +itemProfit.toFixed(2);
+                   seller.profit += itemProfit;
                    if (!seller.products_sold[item.sku]) {
                        seller.products_sold[item.sku] = 0;
                    }
