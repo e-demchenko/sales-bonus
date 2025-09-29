@@ -62,12 +62,11 @@ function analyzeSalesData(data, options) {
        const seller = sellerIndex[record.seller_id];
        if (seller) {
            seller.sales_count += 1;
-           let totalRevenue = 0; // Временная переменная для суммы выручки по чеку
+           seller.revenue += record.total_amount; // Используем total_amount вместо суммы itemRevenue
            record.items.forEach(item => {
                const product = productIndex[item.sku];
                if (product) {
                    const itemRevenue = calculateRevenue(item, product);
-                   totalRevenue += itemRevenue; // Суммируем выручку по item
                    const cost = product.purchase_price * item.quantity;
                    const itemProfit = itemRevenue - cost;
                    seller.profit += itemProfit;
@@ -77,7 +76,6 @@ function analyzeSalesData(data, options) {
                    seller.products_sold[item.sku] += item.quantity;
                }
            });
-           seller.revenue += totalRevenue; // Присваиваем общую выручку по чеку
        }
    });
    sellerStats.sort((a, b) => b.profit - a.profit);
